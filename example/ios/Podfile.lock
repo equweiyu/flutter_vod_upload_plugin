@@ -1,0 +1,45 @@
+PODS:
+  - AliyunOSSiOS (2.10.8)
+  - Flutter (1.0.0)
+  - flutter_plugin_android_lifecycle (0.0.1):
+    - Flutter
+  - flutter_vod_upload_plugin (0.0.1):
+    - Flutter
+    - VODUpload
+  - image_picker (0.0.1):
+    - Flutter
+  - VODUpload (1.6.0):
+    - AliyunOSSiOS
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
+  - flutter_vod_upload_plugin (from `.symlinks/plugins/flutter_vod_upload_plugin/ios`)
+  - image_picker (from `.symlinks/plugins/image_picker/ios`)
+
+SPEC REPOS:
+  trunk:
+    - AliyunOSSiOS
+    - VODUpload
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_plugin_android_lifecycle:
+    :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
+  flutter_vod_upload_plugin:
+    :path: ".symlinks/plugins/flutter_vod_upload_plugin/ios"
+  image_picker:
+    :path: ".symlinks/plugins/image_picker/ios"
+
+SPEC CHECKSUMS:
+  AliyunOSSiOS: 8db92936545593b9e5c66d680ef2ac0738946651
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_plugin_android_lifecycle: 47de533a02850f070f5696a623995e93eddcdb9b
+  flutter_vod_upload_plugin: fbbebe5b518e6b925e8968a27904cea662c67bcc
+  image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
+  VODUpload: 187c8b305ddc21661000377989fe9b1dfbc4ac3d
+
+PODFILE CHECKSUM: 3dbe063e9c90a5d7c9e4e76e70a821b9e2c1d271
+
+COCOAPODS: 1.9.0
