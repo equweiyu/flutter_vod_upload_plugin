@@ -2,10 +2,10 @@ package baitianwei.flutter_vod_upload_plugin
 
 import android.content.Context
 
-import com.alibaba.sdk.android.vod.upload.VODUploadCallback
-import com.alibaba.sdk.android.vod.upload.VODUploadClientImpl
-import com.alibaba.sdk.android.vod.upload.model.UploadFileInfo
-import com.alibaba.sdk.android.vod.upload.model.VodInfo
+//import com.alibaba.sdk.android.vod.upload.VODUploadCallback
+//import com.alibaba.sdk.android.vod.upload.VODUploadClientImpl
+//import com.alibaba.sdk.android.vod.upload.model.UploadFileInfo
+//import com.alibaba.sdk.android.vod.upload.model.VodInfo
 import androidx.annotation.NonNull;
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -16,7 +16,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /** FlutterVodUploadPlugin */
 public class FlutterVodUploadPlugin(private val context: Context): FlutterPlugin, MethodCallHandler {
-  val uploader: VODUploadClientImpl = VODUploadClientImpl(context)
+//  val uploader: VODUploadClientImpl = VODUploadClientImpl(context)
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     val channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_vod_upload_plugin")
@@ -51,32 +51,32 @@ public class FlutterVodUploadPlugin(private val context: Context): FlutterPlugin
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
   }
-  fun setUploadAuthAndAddress(uploadAuth: String, uploadAddress: String) {
-
-    val callback: VODUploadCallback = object : VODUploadCallback() {
-      override fun onUploadStarted(uploadFileInfo: UploadFileInfo?) {
-        uploader.setUploadAuthAndAddress(uploadFileInfo, uploadAuth, uploadAddress)
-      }
-    }
-    uploader.init(callback);
-  }
-  fun addFile(filePath:String) {
-    val vodInfo:VodInfo = VodInfo()
-    vodInfo.title = "title"
-
-    uploader.addFile(filePath, vodInfo)
-  }
-
-  fun start() {
-    uploader.start()
-  }
-  fun stop() {
-    uploader.stop()
-  }
-  fun pause() {
-    uploader.pause()
-  }
-  fun resume() {
-    uploader.resume()
-  }
+//  fun setUploadAuthAndAddress(uploadAuth: String, uploadAddress: String) {
+//
+//    val callback: VODUploadCallback = object : VODUploadCallback() {
+//      override fun onUploadStarted(uploadFileInfo: UploadFileInfo?) {
+//        uploader.setUploadAuthAndAddress(uploadFileInfo, uploadAuth, uploadAddress)
+//      }
+//    }
+//    uploader.init(callback);
+//  }
+//  fun addFile(filePath:String) {
+//    val vodInfo:VodInfo = VodInfo()
+//    vodInfo.title = "title"
+//
+//    uploader.addFile(filePath, vodInfo)
+//  }
+//
+//  fun start() {
+//    uploader.start()
+//  }
+//  fun stop() {
+//    uploader.stop()
+//  }
+//  fun pause() {
+//    uploader.pause()
+//  }
+//  fun resume() {
+//    uploader.resume()
+//  }
 }

@@ -19,7 +19,7 @@ rootProject.allprojects {
     repositories {
         google()
         jcenter()
-        maven { url "https://maven.aliyun.com/nexus/content/repositories/releases" }
+//        maven { url "https://maven.aliyun.com/nexus/content/repositories/releases" }
 
     }
 }
@@ -44,5 +44,5 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    compile 'com.aliyun.video.android:upload:1.6.0'
+//    compile 'com.aliyun.video.android:upload:1.6.0'
 }
