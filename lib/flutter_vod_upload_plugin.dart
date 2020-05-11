@@ -38,26 +38,26 @@ class FlutterVodUploadPlugin {
   }
 
   static void callBack({
-    Function(dynamic info) onUploadSucceed,
-    Function(String code, String message, dynamic info) onUploadFailed,
-    Function(num uploadedSize, num totalSize, dynamic info) onUploadProgress,
+    Function() onUploadSucceed,
+    Function(String code, String message) onUploadFailed,
+    Function(num uploadedSize, num totalSize) onUploadProgress,
     Function() onUploadTokenExpired,
     Function() onUploadRetry,
     Function() onUploadRetryResume,
-    Function(dynamic info) onUploadStarted,
+    Function() onUploadStarted,
   }) {
     _channel.setMethodCallHandler((call) async {
       switch (call.method) {
         case 'onUploadSucceed':
-          return onUploadSucceed(call.arguments['info']);
+          return onUploadSucceed();
           break;
         case 'onUploadFailed':
           return onUploadFailed(call.arguments['code'],
-              call.arguments['message'], call.arguments['info']);
+              call.arguments['message']);
           break;
         case 'onUploadProgress':
           return onUploadProgress(call.arguments['uploadedSize'],
-              call.arguments['totalSize'], call.arguments['info']);
+              call.arguments['totalSize']);
           break;
         case 'onUploadTokenExpired':
           return onUploadTokenExpired();
@@ -69,7 +69,7 @@ class FlutterVodUploadPlugin {
           return onUploadRetryResume();
           break;
         case 'onUploadStarted':
-          return onUploadStarted(call.arguments['info']);
+          return onUploadStarted();
           break;
         default:
           throw new UnsupportedError("Unrecognized Event");

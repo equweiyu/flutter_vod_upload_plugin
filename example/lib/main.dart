@@ -40,10 +40,10 @@ class _MyAppState extends State<MyApp> {
 
     FlutterVodUploadPlugin.setListener(uploadAuth, uploadAddress);
     FlutterVodUploadPlugin.callBack(
-      onUploadStarted: (info) async {
-        print(info);
+      onUploadStarted: () async {
+        print("onUploadStarted");
       },
-      onUploadProgress: (uploadedSize, totalSize, info) {
+      onUploadProgress: (uploadedSize, totalSize) {
         setState(() {
           _progressValue = uploadedSize / totalSize;
         });
