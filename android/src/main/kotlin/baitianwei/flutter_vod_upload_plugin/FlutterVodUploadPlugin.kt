@@ -15,12 +15,14 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /** FlutterVodUploadPlugin */
-public class FlutterVodUploadPlugin(private val context: Context) : FlutterPlugin, MethodCallHandler {
-    val uploader: VODUploadClientImpl = VODUploadClientImpl(context)
+public class FlutterVodUploadPlugin : FlutterPlugin, MethodCallHandler {
+    var uploader: VODUploadClientImpl? = null
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_vod_upload_plugin")
-        channel.setMethodCallHandler(FlutterVodUploadPlugin(flutterPluginBinding.applicationContext));
+        val plugin = FlutterVodUploadPlugin()
+        plugin.uploader = VODUploadClientImpl(flutterPluginBinding.applicationContext)
+        channel.setMethodCallHandler(plugin);
     }
 
 
@@ -37,7 +39,9 @@ public class FlutterVodUploadPlugin(private val context: Context) : FlutterPlugi
         @JvmStatic
         fun registerWith(registrar: Registrar) {
             val channel = MethodChannel(registrar.messenger(), "flutter_vod_upload_plugin")
-            channel.setMethodCallHandler(FlutterVodUploadPlugin(registrar.activeContext().applicationContext))
+            val plugin = FlutterVodUploadPlugin()
+            plugin.uploader = VODUploadClientImpl(registrar.activeContext())
+            channel.setMethodCallHandler(plugin)
         }
     }
 
@@ -69,32 +73,31 @@ public class FlutterVodUploadPlugin(private val context: Context) : FlutterPlugi
 
         val callback: VODUploadCallback = object : VODUploadCallback() {
             override fun onUploadStarted(uploadFileInfo: UploadFileInfo?) {
-                uploader.setUploadAuthAndAddress(uploadFileInfo, uploadAuth, uploadAddress)
+                uploader?.setUploadAuthAndAddress(uploadFileInfo, uploadAuth, uploadAddress)
             }
         }
-        uploader.init(callback);
+        uploader?.init(callback);
     }
 
     fun addFile(filePath: String) {
         val vodInfo: VodInfo = VodInfo()
-        vodInfo.title = "title"
-
-        uploader.addFile(filePath, vodInfo)
+        vodInfo.title = filePath
+        uploader?.addFile(filePath, vodInfo)
     }
 
     fun start() {
-        uploader.start()
+        uploader?.start()
     }
 
     fun stop() {
-        uploader.stop()
+        uploader?.stop()
     }
 
     fun pause() {
-        uploader.pause()
+        uploader?.pause()
     }
 
     fun resume() {
-        uploader.resume()
+        uploader?.resume()
     }
 }
