@@ -31,11 +31,12 @@ public class FlutterVodUploadPlugin : FlutterPlugin, MethodCallHandler, Activity
     }
 
     override fun onDetachedFromActivity() {
-        TODO("Not yet implemented")
+        activity = null
+        methodChannel = null
+        uploader = null
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-        TODO("Not yet implemented")
         this.activity = binding.activity;
     }
 
@@ -44,7 +45,7 @@ public class FlutterVodUploadPlugin : FlutterPlugin, MethodCallHandler, Activity
     }
 
     override fun onDetachedFromActivityForConfigChanges() {
-        TODO("Not yet implemented")
+        onDetachedFromActivity()
     }
 
     companion object {
@@ -55,11 +56,11 @@ public class FlutterVodUploadPlugin : FlutterPlugin, MethodCallHandler, Activity
             plugin.uploader = VODUploadClientImpl(registrar.context())
             channel.setMethodCallHandler(plugin)
             plugin.methodChannel = channel
+            plugin.activity = registrar.activity()
         }
     }
 
     private fun invokeMethod(method: String, arguments: Any?) {
-        println("WML: "+method)
         activity?.runOnUiThread {
             methodChannel?.invokeMethod(method, arguments)
         }
