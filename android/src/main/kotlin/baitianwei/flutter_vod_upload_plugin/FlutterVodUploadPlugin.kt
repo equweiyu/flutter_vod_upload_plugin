@@ -1,11 +1,14 @@
 package baitianwei.flutter_vod_upload_plugin
 
+import android.app.Activity
 import androidx.annotation.NonNull
 import com.alibaba.sdk.android.vod.upload.VODUploadCallback
 import com.alibaba.sdk.android.vod.upload.VODUploadClientImpl
 import com.alibaba.sdk.android.vod.upload.model.UploadFileInfo
 import com.alibaba.sdk.android.vod.upload.model.VodInfo
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -13,9 +16,11 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
 /** FlutterVodUploadPlugin */
-public class FlutterVodUploadPlugin : FlutterPlugin, MethodCallHandler {
+public class FlutterVodUploadPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     var uploader: VODUploadClientImpl? = null
     var methodChannel: MethodChannel? = null
+    var activity: Activity? = null
+
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channel = MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_vod_upload_plugin")
@@ -23,6 +28,23 @@ public class FlutterVodUploadPlugin : FlutterPlugin, MethodCallHandler {
         plugin.uploader = VODUploadClientImpl(flutterPluginBinding.applicationContext)
         channel.setMethodCallHandler(plugin)
         plugin.methodChannel = channel
+    }
+
+    override fun onDetachedFromActivity() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        TODO("Not yet implemented")
+        this.activity = binding.activity;
+    }
+
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        this.activity = binding.activity;
+    }
+
+    override fun onDetachedFromActivityForConfigChanges() {
+        TODO("Not yet implemented")
     }
 
     companion object {
@@ -33,6 +55,13 @@ public class FlutterVodUploadPlugin : FlutterPlugin, MethodCallHandler {
             plugin.uploader = VODUploadClientImpl(registrar.context())
             channel.setMethodCallHandler(plugin)
             plugin.methodChannel = channel
+        }
+    }
+
+    private fun invokeMethod(method: String, arguments: Any?) {
+        println("WML: "+method)
+        activity?.runOnUiThread {
+            methodChannel?.invokeMethod(method, arguments)
         }
     }
 
@@ -67,31 +96,31 @@ public class FlutterVodUploadPlugin : FlutterPlugin, MethodCallHandler {
 
         val callback: VODUploadCallback = object : VODUploadCallback() {
             override fun onUploadSucceed(info: UploadFileInfo?) {
-                methodChannel?.invokeMethod("onUploadSucceed", null)
+                invokeMethod("onUploadSucceed", null)
             }
 
             override fun onUploadFailed(info: UploadFileInfo?, code: String?, message: String?) {
-                methodChannel?.invokeMethod("onUploadFailed", mapOf("code" to code, "message" to message))
+                invokeMethod("onUploadFailed", mapOf("code" to code, "message" to message))
             }
 
             override fun onUploadProgress(info: UploadFileInfo?, uploadedSize: Long, totalSize: Long) {
-                methodChannel?.invokeMethod("onUploadProgress", mapOf("uploadedSize" to uploadedSize, "totalSize" to totalSize))
+                invokeMethod("onUploadProgress", mapOf("uploadedSize" to uploadedSize, "totalSize" to totalSize))
             }
 
             override fun onUploadTokenExpired() {
-                methodChannel?.invokeMethod("onUploadTokenExpired", null)
+                invokeMethod("onUploadTokenExpired", null)
             }
 
             override fun onUploadRetry(code: String?, message: String?) {
-                methodChannel?.invokeMethod("onUploadRetry", null)
+                invokeMethod("onUploadRetry", null)
             }
 
             override fun onUploadRetryResume() {
-                methodChannel?.invokeMethod("onUploadRetryResume", null)
+                invokeMethod("onUploadRetryResume", null)
             }
 
             override fun onUploadStarted(uploadFileInfo: UploadFileInfo?) {
-                methodChannel?.invokeMethod("onUploadStarted", null)
+                invokeMethod("onUploadStarted", null)
                 uploader?.setUploadAuthAndAddress(uploadFileInfo, uploadAuth, uploadAddress)
             }
         }
